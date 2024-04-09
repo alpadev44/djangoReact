@@ -106,3 +106,9 @@ SENDGRID_API_KEY=your_sendgrid_api_key
 
 Con esta estructura, la documentación queda más organizada y fácil de seguir, separando claramente las instrucciones para configurar el backend y el frontend del proyecto. Además, se proporcionan detalles específicos para la configuración de PostgreSQL y SendGrid.
 
+# Documentacion del proyecto con core Api
+
+### Endpoints
+http://localhost:8000/empleados/docs/
+http://localhost:8000/emails/docs/
+http://localhost:8000/telefonos/docs/
