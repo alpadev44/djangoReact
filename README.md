@@ -121,3 +121,7 @@ Con esta estructura, la documentación queda más organizada y fácil de seguir,
 1. http://localhost:8000/empleados/docs/
 2. http://localhost:8000/emails/docs/
 3. http://localhost:8000/telefonos/docs/
+
+## Anexo un video en loom para mayor facilidad del usuario
+
+1. https://www.loom.com/share/0f1d81ac623843438e1b2f388f186dad
