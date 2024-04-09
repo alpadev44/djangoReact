@@ -124,4 +124,4 @@ Con esta estructura, la documentación queda más organizada y fácil de seguir,
 
 ## Anexo un video en loom para mayor facilidad del usuario
 
-1. https://www.loom.com/share/0f1d81ac623843438e1b2f388f186dad
+1. https://www.loom.com/share/749cdb494a1b4efc8d7e29fbf01c7ff1
