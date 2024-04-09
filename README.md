@@ -109,6 +109,6 @@ Con esta estructura, la documentación queda más organizada y fácil de seguir,
 # Documentacion del proyecto con core Api
 
 ### Endpoints
-http://localhost:8000/empleados/docs/
-http://localhost:8000/emails/docs/
-http://localhost:8000/telefonos/docs/
+1. http://localhost:8000/empleados/docs/
+2. http://localhost:8000/emails/docs/
+3. http://localhost:8000/telefonos/docs/
