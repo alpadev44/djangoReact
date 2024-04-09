@@ -69,7 +69,7 @@ python manage.py runserver
 
 #### Instalación de dependencias de Node.js
 
-### estos los utilice cuando cree el proyecto
+#### estos los utilice cuando cree el proyecto
 ```bash 
 npm i react-router-dom react-hot-toast axios react-hook-form react-draggable
 npm install @mui/material @emotion/react @emotion/styled
@@ -77,7 +77,7 @@ npm install @fontsource/roboto
 npm install @mui/icons-material
 ```
 
-### pero con este comando instalamos todo lo anterior
+#### pero con este comando instalamos todo lo anterior
 ```bash 
 npm install
 ```
