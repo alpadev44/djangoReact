@@ -1,6 +1,4 @@
-Aquí tienes una estructura más organizada para la documentación del proyecto de gestión de empleados, de manera que sea más clara y fácil de seguir:
 
----
 
 # Proyecto de Gestión de Empleados
 
