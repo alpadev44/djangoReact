@@ -30,6 +30,47 @@ export const EmpleadosPostPage = () => {
       ...formData,
       [name]: value,
     });
+
+    if (name === 'nombres' && value.length < 3) {
+      setError('Debe contener al menos 3 caracteres');
+    } 
+    else if (name === 'apellidos' && value.length < 3) {
+      setError('Debe contener al menos 3 caracteres');
+    }
+    else if (name === 'tipoIdentificacion' && value.length < 2) {
+      setError('Debe contener al menos 2 caracteres');
+    }
+    else if (name === 'identificacion' && value.length < 6) {
+      setError('Debe contener al menos 4 caracteres');
+    }
+    else if (name === 'fechaIngreso' && value.trim() === '') {
+      setError('Este campo no puede estar en blanco');
+    }
+    else if (name ==='salarioMensual' && value.length < 3) {
+      setError('Debe contener al menos 3 caracteres');
+    }
+    else if (name === 'cargo' && value.length < 4) {
+      setError('Debe contener al menos 4 caracteres');
+    }
+    else if (name === 'departamento' && value.length < 2) {
+      setError('Debe contener al menos 2 caracteres');
+    }
+    else if (name === 'email' && !value.includes('@')) {
+      setError('El correo electrónico debe contener al menos un "@"' );
+    }
+    else if (name === 'tipoTelefono' && value.length < 3) {
+      setError('Debe contener al menos 3 caracteres');
+    }
+    else if (name === 'numeroTelefono' && value.length < 3) {
+      setError('Debe contener al menos 3 caracteres');
+    }
+    else if (name === 'indicativoTelefono' && value.length > 3) {
+      setError('Debe contener menos de 3 caracteres');
+    }
+    else {
+      setError('');
+    }
+    
   };
 
   const handleSubmit = () => {
@@ -84,7 +125,6 @@ export const EmpleadosPostPage = () => {
 
   }
   
-
   const resetForm = () => {
     setFormData({
       nombres: "",
@@ -117,6 +157,8 @@ export const EmpleadosPostPage = () => {
           variant="outlined"
           value={formData.nombres}
           onChange={handleInputChange}
+          error={Boolean(error)}
+          helperText={error}
         />
         <TextField
           id="apellidos"
@@ -125,6 +167,8 @@ export const EmpleadosPostPage = () => {
           variant="outlined"
           value={formData.apellidos}
           onChange={handleInputChange}
+          error={Boolean(error)}
+          helperText={error}
         />
         <TextField
           id="tipoIdentificacion"
@@ -133,6 +177,8 @@ export const EmpleadosPostPage = () => {
           variant="outlined"
           value={formData.tipoIdentificacion}
           onChange={handleInputChange}
+          error={Boolean(error)}
+          helperText={error}
         />
         <TextField
           id="identificacion"
@@ -141,6 +187,8 @@ export const EmpleadosPostPage = () => {
           variant="outlined"
           value={formData.identificacion}
           onChange={handleInputChange}
+          error={Boolean(error)}
+          helperText={error}
         />
         <TextField
           id="fechaIngreso"
@@ -149,6 +197,8 @@ export const EmpleadosPostPage = () => {
           variant="outlined"
           value={formData.fechaIngreso}
           onChange={handleInputChange}
+          error={Boolean(error)}
+          helperText={error}
         />
         <TextField
           id="salarioMensual"
@@ -157,6 +207,8 @@ export const EmpleadosPostPage = () => {
           variant="outlined"
           value={formData.salarioMensual}
           onChange={handleInputChange}
+          error={Boolean(error)}
+          helperText={error}
         />
         <TextField
           id="cargo"
@@ -165,6 +217,8 @@ export const EmpleadosPostPage = () => {
           variant="outlined"
           value={formData.cargo}
           onChange={handleInputChange}
+          error={Boolean(error)}
+          helperText={error}
         />
         <TextField
           id="departamento"
@@ -173,6 +227,8 @@ export const EmpleadosPostPage = () => {
           variant="outlined"
           value={formData.departamento}
           onChange={handleInputChange}
+          error={Boolean(error)}
+          helperText={error}
         />
         <TextField
           id="email"
@@ -181,6 +237,8 @@ export const EmpleadosPostPage = () => {
           variant="outlined"
           value={formData.email}
           onChange={handleInputChange}
+          error={Boolean(error)}
+          helperText={error}
         />
         <TextField
           id="tipoTelefono"
@@ -189,6 +247,8 @@ export const EmpleadosPostPage = () => {
           variant="outlined"
           value={formData.tipoTelefono}
           onChange={handleInputChange}
+          error={Boolean(error)}
+          helperText={error}
         />
         <TextField
           id="numeroTelefono"
@@ -197,6 +257,8 @@ export const EmpleadosPostPage = () => {
           variant="outlined"
           value={formData.numeroTelefono}
           onChange={handleInputChange}
+          error={Boolean(error)}
+          helperText={error}
         />
         <TextField
           id="indicativoTelefono"
@@ -205,6 +267,8 @@ export const EmpleadosPostPage = () => {
           variant="outlined"
           value={formData.indicativoTelefono}
           onChange={handleInputChange}
+          error={Boolean(error)}
+          helperText={error}
         />
         <Box display={"flex"} justifyContent={"center"} mt={3}>
           <Button variant="contained" onClick={handleSubmit}>

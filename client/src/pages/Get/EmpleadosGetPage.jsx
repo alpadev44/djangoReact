@@ -16,7 +16,25 @@ import Tooltip from "@mui/material/Tooltip";
 import EditIcon from "@mui/icons-material/Edit";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import Draggable from "react-draggable";
+import Button from "@mui/material/Button";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 import "./EmpleadosGetPage.css";
+
+function PaperComponent(props) {
+  return (
+    <Draggable
+      handle="#draggable-dialog-title"
+      cancel={'[class*="MuiDialogContent-root"]'}
+    >
+      <Paper {...props} />
+    </Draggable>
+  );
+}
 
 export const EmpleadosGetPage = () => {
   const [empleados, setEmpleados] = useState([]);
@@ -24,6 +42,8 @@ export const EmpleadosGetPage = () => {
   const [updatedEmpleado, setUpdatedEmpleado] = useState({});
   const [emails, setEmails] = useState({});
   const [telefonos, setTelefonos] = useState({});
+  const [confirmDeleteId, setConfirmDeleteId] = useState(null);
+  const [openDialog, setOpenDialog] = useState(false);
 
   useEffect(() => {
     fetchEmpleados();
@@ -85,6 +105,32 @@ export const EmpleadosGetPage = () => {
       });
   };
 
+  const handleDeleteEmpleado = (id) => {
+    setConfirmDeleteId(id);
+    setOpenDialog(true);
+  };
+
+  const handleConfirmDelete = () => {
+    if (confirmDeleteId) {
+      api
+        .delete(`empleados/api/v1/empleados/${confirmDeleteId}`)
+        .then(() => {
+          fetchEmpleados();
+          setConfirmDeleteId(null);
+          setOpenDialog(false);
+        })
+        .catch((error) => {
+          console.error("Error al eliminar el empleado:", error);
+          throw error;
+        });
+    }
+  };
+
+  const handleCancelDelete = () => {
+    setConfirmDeleteId(null);
+    setOpenDialog(false);
+  };
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setUpdatedEmpleado({
@@ -97,12 +143,15 @@ export const EmpleadosGetPage = () => {
     setEditingEmpleadoId(id);
     const empleado = empleados.find((empleado) => empleado.id === id);
     const email = emails[id] ? emails[id][0]?.email : "";
-    const telefono = telefonos[id] ? telefonos[id][0] : { tipo: "", numero: "", indicativo: "" };
+    const telefono = telefonos[id]
+      ? telefonos[id][0]
+      : { tipo: "", numero: "", indicativo: "" };
     setUpdatedEmpleado({ ...empleado, email, ...telefono });
   };
 
   const handleUpdateEmpleado = (id) => {
-    const { email, tipo, numero, indicativo, ...restEmpleado } = updatedEmpleado;
+    const { email, tipo, numero, indicativo, ...restEmpleado } =
+      updatedEmpleado;
 
     api
       .put(`empleados/api/v1/empleados/${id}/`, restEmpleado)
@@ -118,7 +167,10 @@ export const EmpleadosGetPage = () => {
                 fetchEmails();
               })
               .catch((error) => {
-                console.error("Error al actualizar el correo electrónico:", error);
+                console.error(
+                  "Error al actualizar el correo electrónico:",
+                  error
+                );
                 throw error;
               });
           } else {
@@ -171,18 +223,6 @@ export const EmpleadosGetPage = () => {
       });
   };
 
-  const handleDeleteEmpleado = (id) => {
-    api
-      .delete(`empleados/api/v1/empleados/${id}`)
-      .then(() => {
-        fetchEmpleados();
-      })
-      .catch((error) => {
-        console.error("Error al eliminar el empleado:", error);
-        throw error;
-      });
-  };
-
   const renderTelefonoData = (empleadoId, propertyName) => {
     if (telefonos[empleadoId] && telefonos[empleadoId].length > 0) {
       return telefonos[empleadoId].map((telefono, index) => (
@@ -191,6 +231,11 @@ export const EmpleadosGetPage = () => {
     } else {
       return "Sin teléfono";
     }
+  };
+
+  const handleCancelUpdate = () => {
+    setEditingEmpleadoId(null);
+    setUpdatedEmpleado({});
   };
 
   return (
@@ -209,7 +254,12 @@ export const EmpleadosGetPage = () => {
       </Box>
       <div>
         <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 1700 }} aria-label="simple table"  size="medium" padding="normal">
+          <Table
+            sx={{ minWidth: 1700 }}
+            aria-label="simple table"
+            size="medium"
+            padding="normal"
+          >
             <TableHead>
               <TableRow>
                 <TableCell align="center">Nombres</TableCell>
@@ -368,14 +418,24 @@ export const EmpleadosGetPage = () => {
                   </TableCell>
                   <TableCell align="center">
                     {editingEmpleadoId === empleado.id ? (
-                      <Tooltip title="Guardar">
-                        <IconButton
-                          color="primary"
-                          onClick={() => handleUpdateEmpleado(empleado.id)}
-                        >
-                          <CheckCircleIcon />
-                        </IconButton>
-                      </Tooltip>
+                      <>
+                        <Tooltip title="Guardar">
+                          <IconButton
+                            color="primary"
+                            onClick={() => handleUpdateEmpleado(empleado.id)}
+                          >
+                            <CheckCircleIcon />
+                          </IconButton>
+                        </Tooltip>
+                        <Tooltip title="Cancelar">
+                          <IconButton
+                            color="error"
+                            onClick={handleCancelUpdate}
+                          >
+                            <DeleteIcon />
+                          </IconButton>
+                        </Tooltip>
+                      </>
                     ) : (
                       <>
                         <Tooltip title="Actualizar">
@@ -403,6 +463,27 @@ export const EmpleadosGetPage = () => {
           </Table>
         </TableContainer>
       </div>
+      <Dialog
+        open={openDialog}
+        onClose={handleCancelDelete}
+        PaperComponent={PaperComponent}
+        aria-labelledby="draggable-dialog-title"
+      >
+        <DialogTitle style={{ cursor: "move" }} id="draggable-dialog-title">
+          Confirmar eliminación
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText>
+            ¿Estás seguro de que deseas eliminar este empleado?
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button autoFocus onClick={handleCancelDelete}>
+            Cancelar
+          </Button>
+          <Button onClick={handleConfirmDelete}>Eliminar</Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };
